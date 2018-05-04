@@ -64,10 +64,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleUI\ClientProject.csproj">
-      <Project>{3ff7e73d-52eb-4dd9-beed-ac94d546a1c9}</Project>
-      <Name>ClientProject</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataProject\DataProject.csproj">
       <Project>{fe5c522a-6bce-453f-bee8-d60f01b64b8b}</Project>
       <Name>DataProject</Name>
