@@ -1,6 +1,7 @@
 ﻿using NLog;
 
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -56,11 +57,11 @@ namespace DataProject
             }
         }
 
-        public static DbSet<Restaurant> ReadRestaurants()
+        public static IEnumerable<Restaurant> ReadRestaurants()
         {
             using (db = new RestaurantReviewsEntities())
             {
-                return db.Restaurants;
+                return db.Restaurants.ToList();
             }
         }
 
@@ -147,11 +148,11 @@ namespace DataProject
             }
         }
 
-        public static DbSet<Review> ReadReviews()
+        public static IEnumerable<Review> ReadReviews()
         {
             using (db = new RestaurantReviewsEntities())
             {
-                return db.Reviews;
+                return db.Reviews.ToList();
             }
         }
 

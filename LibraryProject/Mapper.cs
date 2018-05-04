@@ -19,13 +19,9 @@ namespace LibraryProject
                 State = dbRestaurant.State,
                 ZIP = dbRestaurant.ZIP,
                 Name = dbRestaurant.Name,
+                AvgRating = (float)dbRestaurant.AvgRating,
                 Reviews = new List<Review>()
             };
-            ICollection<DataProject.Review> reviews = dbRestaurant.Reviews;
-            foreach (DataProject.Review rev in reviews)
-            {
-                result.AddReview(ConvertReviewFromDB(rev));
-            }
 
             return result;
         }
@@ -68,11 +64,6 @@ namespace LibraryProject
                 AvgRating = restaurant.AvgRating,
                 Reviews = new List<DataProject.Review>()
             };
-            foreach(Review rev in restaurant.Reviews)
-            {
-                result.Reviews.Add(ConvertReviewToDB(rev));
-            }
-
             return result;
         }
 
@@ -125,32 +116,32 @@ namespace LibraryProject
 
         public static Restaurant FindRestaurantByID(int id)
         {
-            return ConvertRestaurantFromDB(RestaurantCRUD.ReadRestaurants().Find(id));
+            return ConvertRestaurantFromDB(RestaurantCRUD.ReadRestaurants().Where(x => x.ID == id).FirstOrDefault());
         }
 
         public static ICollection<Restaurant> FindRestaurantsByName(string key)
         {
-            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().Where(x => x.Name.Contains(key)).Include("Reviews").ToList());
+            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().Where(x => x.Name.Contains(key)).ToList());
         }
 
         public static ICollection<Restaurant> GetRestaurantsSortByRating()
         {
-            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().OrderByDescending(x => x.AvgRating).Include("Reviews").ToList());
+            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().OrderByDescending(x => x.AvgRating).ToList());
         }
 
         public static ICollection<Restaurant> GetRestaurantsSortByRating(int count)
         {
-            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().OrderByDescending(x => x.AvgRating).Take(count).Include("Reviews").ToList());
+            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().OrderByDescending(x => x.AvgRating).Take(count).ToList());
         }
 
         public static ICollection<Restaurant> GetRestaurantsSortByName()
         {
-            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().OrderBy(x => x.Name).Include("Reviews").ToList());
+            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().OrderBy(x => x.Name).ToList());
         }
 
         public static ICollection<Restaurant> GetRestaurants()
         {
-            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().Include("Reviews").ToList());
+            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().ToList());
         }
     }
 }

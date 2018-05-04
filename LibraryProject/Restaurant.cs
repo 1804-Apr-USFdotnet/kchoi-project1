@@ -35,7 +35,7 @@ namespace LibraryProject
         public ICollection<Review> Reviews { get => _reviews; set => _reviews = (List<Review>)value; }
 
         [JsonIgnore]
-        public float AvgRating { get => _avgRating; }
+        public float AvgRating { get => _avgRating; set => _avgRating = value; }
 
         public bool AddReview(Review newReview)
         {
