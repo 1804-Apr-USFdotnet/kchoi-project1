@@ -11,19 +11,42 @@ namespace RestaurantReviewWebsite.Controllers
     public class SearchController : Controller
     {
         // GET: Search
-  /*      public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View();
-        }
-        */
-        public ActionResult Index(string searchKey)
-        {
-            return View(Mapper.FindRestaurantsByName(searchKey));
+            return RedirectToAction("Search", new { id = searchString });
         }
 
-        public ActionResult Details(int id)
+        // GET: Search/Search/burger?orderBy=rating
+        public ActionResult Search(string id, string orderBy)
         {
-            return View(Mapper.FindRestaurantByID(id));
+            ViewBag.NameSortParm = String.IsNullOrEmpty(orderBy) ? "name_desc" : "";
+            ViewBag.RatingSortParm = orderBy == "rating" ? "rating_asc" : "rating";
+
+            ICollection<Restaurant> result;
+            if (!String.IsNullOrEmpty(id))
+            {
+                result = Mapper.FindRestaurantsByName(id);
+            }
+            else {
+                result = Mapper.GetRestaurants();
+            }
+
+            switch (orderBy)
+            {
+                case "rating":
+                    result = result.OrderByDescending(s => s.AvgRating).ToList();
+                    break;
+                case "rating_asc":
+                    result = result.OrderBy(s => s.AvgRating).ToList();
+                    break;
+                case "name_desc":
+                    result = result.OrderByDescending(s => s.Name).ToList();
+                    break;
+                default:
+                    result = result.OrderBy(s => s.Name).ToList();
+                    break;
+            }
+            return View(result);
         }
     }
 }
