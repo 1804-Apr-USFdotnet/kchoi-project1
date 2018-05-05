@@ -57,6 +57,56 @@ namespace DataProject
             }
         }
 
+        public static void CreateReview(Review review)
+        {
+            using(db = new RestaurantReviewsEntities())
+            {
+                Logger log = LogManager.GetCurrentClassLogger();
+                StringBuilder msg = new StringBuilder();
+
+                Review rev = db.Reviews.Find(review.ID);
+
+                rev.Rating = review.Rating;
+                rev.RestaurantID = review.RestaurantID;
+                rev.ReviewerID = review.ReviewerID;
+                rev.Description = review.Description;
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException e)
+                {
+                    msg.Append(rev.ID + " " + rev.RestaurantID + " " + rev.Rating)
+                        .Append("\n--\n");
+
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        msg.Append("Entity of type \"")
+                            .Append(eve.Entry.Entity.GetType().Name)
+                            .Append("\" in state \"")
+                            .Append(eve.Entry.State)
+                            .Append("\" has the following validation errors:\n");
+
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            msg.Append("- Property: \"")
+                                .Append(ve.PropertyName)
+                                .Append("\", Error: \"")
+                                .Append(ve.ErrorMessage)
+                                .Append("\"\n");
+                        }
+                    }
+
+                    FinishExceptionHandling(log, e, msg.ToString());
+                }
+                catch (Exception ex)
+                {
+                    FinishExceptionHandling(log, ex, ex.StackTrace);
+                }
+            }
+        }
+
         public static IEnumerable<Restaurant> ReadRestaurants()
         {
             using (db = new RestaurantReviewsEntities())
@@ -83,35 +133,6 @@ namespace DataProject
                 oldRestaurant.State = newRestaurant.State;
                 oldRestaurant.ZIP = newRestaurant.ZIP;
 
-                Review tmpReview = null;
-                Review oldReview;
-                int i = 0;
-                while (i <  oldRestaurant.Reviews.Count)
-                {
-                    oldReview = oldRestaurant.Reviews.ElementAt(i);
-                    tmpReview = newRestaurant.Reviews.Where(x => x.ID == oldReview.ID).FirstOrDefault();
-                    if (tmpReview != null)
-                    {
-                        oldReview.Description = tmpReview.Description;
-                        oldReview.Rating = tmpReview.Rating;
-                        oldReview.ReviewerID = tmpReview.ReviewerID;
-                        i++;
-                    }
-                    else
-                    {
-                        oldRestaurant.Reviews.Remove(oldReview);
-                    }
-                }
-
-                foreach (Review newReview in newRestaurant.Reviews)
-                {
-                    tmpReview = oldRestaurant.Reviews.Where(x => x.ID == newReview.ID).FirstOrDefault();
-                    if(tmpReview == null)
-                    {
-                        oldRestaurant.Reviews.Add(newReview);
-                    }
-                }
-
                 try
                 {
                     db.SaveChanges();
@@ -119,6 +140,98 @@ namespace DataProject
                 catch (System.Data.Entity.Validation.DbEntityValidationException e)
                 {
                     msg.Append(newRestaurant.Name)
+                        .Append("\n--\n");
+
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        msg.Append("Entity of type \"")
+                            .Append(eve.Entry.Entity.GetType().Name)
+                            .Append("\" in state \"")
+                            .Append(eve.Entry.State)
+                            .Append("\" has the following validation errors:\n");
+
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            msg.Append("- Property: \"")
+                                .Append(ve.PropertyName)
+                                .Append("\", Error: \"")
+                                .Append(ve.ErrorMessage)
+                                .Append("\"\n");
+                        }
+                    }
+
+                    FinishExceptionHandling(log, e, msg.ToString());
+                }
+                catch (Exception ex)
+                {
+                    FinishExceptionHandling(log, ex, ex.StackTrace);
+                }
+            }
+        }
+
+        public static void UpdateReview(Review rev)
+        {
+            using (db = new RestaurantReviewsEntities())
+            {
+                Logger log = LogManager.GetCurrentClassLogger();
+                StringBuilder msg = new StringBuilder();
+
+                db.Reviews.Add(rev);
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException e)
+                {
+                    msg.Append(rev.ID + " " + rev.RestaurantID + " " + rev.Rating)
+                        .Append("\n--\n");
+
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        msg.Append("Entity of type \"")
+                            .Append(eve.Entry.Entity.GetType().Name)
+                            .Append("\" in state \"")
+                            .Append(eve.Entry.State)
+                            .Append("\" has the following validation errors:\n");
+
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            msg.Append("- Property: \"")
+                                .Append(ve.PropertyName)
+                                .Append("\", Error: \"")
+                                .Append(ve.ErrorMessage)
+                                .Append("\"\n");
+                        }
+                    }
+
+                    FinishExceptionHandling(log, e, msg.ToString());
+                }
+                catch (Exception ex)
+                {
+                    FinishExceptionHandling(log, ex, ex.StackTrace);
+                }
+            }
+        }
+
+        public static void DeleteReviewByID(int id)
+        {
+            using (db = new RestaurantReviewsEntities())
+            {
+                Logger log = LogManager.GetCurrentClassLogger();
+                StringBuilder msg = new StringBuilder();
+
+                Review rev = db.Reviews.Find(id);
+
+                db.Reviews.Remove(rev);
+                
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException e)
+                {
+                    msg.Append(rev.ID + " " + rev.RestaurantID + " " + rev.Rating)
                         .Append("\n--\n");
 
                     foreach (var eve in e.EntityValidationErrors)

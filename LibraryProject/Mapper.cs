@@ -19,8 +19,7 @@ namespace LibraryProject
                 State = dbRestaurant.State,
                 ZIP = dbRestaurant.ZIP,
                 Name = dbRestaurant.Name,
-                AvgRating = (float)dbRestaurant.AvgRating,
-                Reviews = new List<Review>()
+                AvgRating = (float)dbRestaurant.AvgRating
             };
 
             return result;
@@ -50,6 +49,11 @@ namespace LibraryProject
             return result;
         }
 
+        public static void CreateReview(Review rev)
+        {
+            RestaurantCRUD.CreateReview(ConvertReviewToDB(rev));
+        }
+
         public static DataProject.Restaurant ConvertRestaurantToDB(Restaurant restaurant)
         {
             DataProject.Restaurant result = new DataProject.Restaurant
@@ -61,10 +65,24 @@ namespace LibraryProject
                 State = restaurant.State,
                 ZIP = restaurant.ZIP,
                 Name = restaurant.Name,
-                AvgRating = restaurant.AvgRating,
-                Reviews = new List<DataProject.Review>()
+                AvgRating = restaurant.AvgRating
             };
             return result;
+        }
+
+        public static Review FindReviewByID(int id)
+        {
+            return ConvertReviewFromDB(RestaurantCRUD.ReadReviews().Where(x => x.ID == id).FirstOrDefault());
+        }
+
+        public static void UpdateReview(Review rev)
+        {
+            RestaurantCRUD.UpdateReview(ConvertReviewToDB(rev));
+        }
+
+        public static void DeleteReviewByID(int id)
+        {
+            RestaurantCRUD.DeleteReviewByID(id);
         }
 
         private static Review ConvertReviewFromDB(DataProject.Review dbReview)
@@ -142,6 +160,21 @@ namespace LibraryProject
         public static ICollection<Restaurant> GetRestaurants()
         {
             return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().ToList());
+        }
+
+        public static void CreateRestaurant(Restaurant rest)
+        {
+            RestaurantCRUD.CreateRestaurant(ConvertRestaurantToDB(rest));
+        }
+
+        public static void UpdateRestaurant(Restaurant rest)
+        {
+            RestaurantCRUD.UpdateRestaurant(ConvertRestaurantToDB(rest));
+        }
+
+        public static void DeleteRestaurantByID(int id)
+        {
+            RestaurantCRUD.DeleteRestaurantByID(id);
         }
     }
 }
