@@ -57,7 +57,7 @@ namespace DataProject
             }
         }
 
-        public static void CreateReview(Review review)
+        public static void UpdateReview(Review review)
         {
             using(db = new RestaurantReviewsEntities())
             {
@@ -169,7 +169,7 @@ namespace DataProject
             }
         }
 
-        public static void UpdateReview(Review rev)
+        public static void CreateReview(Review rev)
         {
             using (db = new RestaurantReviewsEntities())
             {
