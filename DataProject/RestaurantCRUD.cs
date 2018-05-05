@@ -269,15 +269,19 @@ namespace DataProject
             }
         }
 
-        public static void DeleteRestaurant(Restaurant restaurant)
+        public static void DeleteRestaurantByID(int id)
         {
             using (db = new RestaurantReviewsEntities())
             {
                 Logger log = LogManager.GetCurrentClassLogger();
                 StringBuilder msg = new StringBuilder();
 
-                db.Restaurants.Remove(restaurant);
-                foreach(Review rev in restaurant.Reviews)
+                Restaurant rest = db.Restaurants.Find(id);
+
+                db.Restaurants.Remove(rest);
+
+                ICollection<Review> reviews = db.Reviews.Where(x => x.RestaurantID == rest.ID).ToList();
+                foreach (Review rev in reviews)
                 {
                     db.Reviews.Remove(rev);
                 }
@@ -288,7 +292,7 @@ namespace DataProject
                 }
                 catch (System.Data.Entity.Validation.DbEntityValidationException e)
                 {
-                    msg.Append(restaurant.Name)
+                    msg.Append(rest.Name)
                         .Append("\n--\n");
 
                     foreach (var eve in e.EntityValidationErrors)
