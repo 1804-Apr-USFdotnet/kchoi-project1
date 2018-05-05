@@ -114,10 +114,10 @@ namespace RestaurantReviewWebsite.Controllers
         {
             try
             {
-                // TODO: test
+                Review rev = Mapper.FindReviewByID(id);
                 Mapper.DeleteReviewByID(id);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("List", new { id = rev.RestaurantID });
             }
             catch
             {
