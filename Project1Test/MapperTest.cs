@@ -132,33 +132,28 @@ namespace Project0Test
 
             ICollection<DataProject.Restaurant> dbList = Mapper.ConvertRestaurantListToDB(blList);
 
-            if(dbList.Count != blList.Count)
+            Assert.AreEqual(dbList.Count, blList.Count, "lists not equal");
+            for(int i = 0; i < dbList.Count; i++)
             {
-                Assert.Fail("lists not equal");
-            } else
-            {
-                for(int i = 0; i < dbList.Count; i++)
-                {
-                    dbRest = ((List<DataProject.Restaurant>)dbList)[i];
-                    blRest = ((List<LibraryProject.Restaurant>)blList)[i];
+                dbRest = ((List<DataProject.Restaurant>)dbList)[i];
+                blRest = ((List<LibraryProject.Restaurant>)blList)[i];
 
-                    for (int y = 0; y < dbRest.Reviews.Count; y++)
-                    {
-                        dbRev = ((List<DataProject.Review>)dbRest.Reviews)[0];
-                        blRev = ((List<LibraryProject.Review>)blRest.Reviews)[0];
-                        Assert.AreEqual(dbRest.Address, blRest.Address, "Address: \"" + dbRest.Address + "\" \"" + blRest.Address + '"');
-                        Assert.AreEqual(dbRest.AvgRating, blRest.AvgRating, "AvgRating: \"" + dbRest.AvgRating + "\" \"" + blRest.AvgRating + '"');
-                        Assert.AreEqual(dbRest.City, blRest.City, "City: \"" + dbRest.City + "\" \"" + blRest.City + '"');
-                        Assert.AreEqual(dbRest.ID, blRest.ID, "ID: \"" + dbRest.ID + "\" \"" + blRest.ID + '"');
-                        Assert.AreEqual(dbRest.Name, blRest.Name, "Name: \"" + dbRest.Name + "\" \"" + blRest.Name + '"');
-                        Assert.AreEqual(dbRest.PhoneNum, blRest.PhoneNum, "PhoneNum: \"" + dbRest.PhoneNum + "\" \"" + blRest.PhoneNum + '"');
-                        Assert.AreEqual(dbRest.State, blRest.State, "State: \"" + dbRest.State + "\" \"" + blRest.Address + '"');
-                        Assert.AreEqual(dbRest.ZIP, blRest.ZIP, "ZIP: \"" + dbRest.ZIP + "\" \"" + blRest.ZIP + '"');
-                        Assert.AreEqual(dbRev.Description, blRev.Description, "Description: \"" + dbRev.Description + "\" \"" + blRev.Description + '"');
-                        Assert.AreEqual(dbRev.Rating, blRev.Rating, "Rating: \"" + dbRev.Rating + "\" \"" + blRev.Rating + '"');
-                        Assert.AreEqual(dbRev.RestaurantID, blRev.RestaurantID, "RestaurantID: \"" + dbRev.RestaurantID + "\" \"" + blRev.RestaurantID + '"');
-                        Assert.AreEqual(dbRev.ID, blRev.ID, "ID: \"" + dbRev.ID + "\" \"" + blRev.ID + '"');
-                    }
+                for (int y = 0; y < dbRest.Reviews.Count; y++)
+                {
+                    dbRev = ((List<DataProject.Review>)dbRest.Reviews)[0];
+                    blRev = ((List<LibraryProject.Review>)blRest.Reviews)[0];
+                    Assert.AreEqual(dbRest.Address, blRest.Address, "Address: \"" + dbRest.Address + "\" \"" + blRest.Address + '"');
+                    Assert.AreEqual(dbRest.AvgRating, blRest.AvgRating, "AvgRating: \"" + dbRest.AvgRating + "\" \"" + blRest.AvgRating + '"');
+                    Assert.AreEqual(dbRest.City, blRest.City, "City: \"" + dbRest.City + "\" \"" + blRest.City + '"');
+                    Assert.AreEqual(dbRest.ID, blRest.ID, "ID: \"" + dbRest.ID + "\" \"" + blRest.ID + '"');
+                    Assert.AreEqual(dbRest.Name, blRest.Name, "Name: \"" + dbRest.Name + "\" \"" + blRest.Name + '"');
+                    Assert.AreEqual(dbRest.PhoneNum, blRest.PhoneNum, "PhoneNum: \"" + dbRest.PhoneNum + "\" \"" + blRest.PhoneNum + '"');
+                    Assert.AreEqual(dbRest.State, blRest.State, "State: \"" + dbRest.State + "\" \"" + blRest.Address + '"');
+                    Assert.AreEqual(dbRest.ZIP, blRest.ZIP, "ZIP: \"" + dbRest.ZIP + "\" \"" + blRest.ZIP + '"');
+                    Assert.AreEqual(dbRev.Description, blRev.Description, "Description: \"" + dbRev.Description + "\" \"" + blRev.Description + '"');
+                    Assert.AreEqual(dbRev.Rating, blRev.Rating, "Rating: \"" + dbRev.Rating + "\" \"" + blRev.Rating + '"');
+                    Assert.AreEqual(dbRev.RestaurantID, blRev.RestaurantID, "RestaurantID: \"" + dbRev.RestaurantID + "\" \"" + blRev.RestaurantID + '"');
+                    Assert.AreEqual(dbRev.ID, blRev.ID, "ID: \"" + dbRev.ID + "\" \"" + blRev.ID + '"');
                 }
             }
         }
@@ -191,34 +186,28 @@ namespace Project0Test
 
             ICollection<LibraryProject.Restaurant> blList = Mapper.ConvertRestaurantListFromDB(dbList);
 
-            if (dbList.Count != blList.Count)
+            Assert.AreEqual(dbList.Count, blList.Count, "lists not equal");
+            for (int i = 0; i < dbList.Count; i++)
             {
-                Assert.Fail("lists not equal");
-            }
-            else
-            {
-                for (int i = 0; i < dbList.Count; i++)
-                {
-                    dbRest = ((List<DataProject.Restaurant>)dbList)[i];
-                    blRest = ((List<LibraryProject.Restaurant>)blList)[i];
+                dbRest = ((List<DataProject.Restaurant>)dbList)[i];
+                blRest = ((List<LibraryProject.Restaurant>)blList)[i];
 
-                    for (int y = 0; y < dbRest.Reviews.Count; y++)
-                    {
-                        dbRev = ((List<DataProject.Review>)dbRest.Reviews)[0];
-                        blRev = ((List<LibraryProject.Review>)blRest.Reviews)[0];
-                        Assert.AreEqual(dbRest.Address, blRest.Address, "Address: \"" + dbRest.Address + "\" \"" + blRest.Address + '"');
-                        Assert.AreEqual(dbRest.AvgRating, blRest.AvgRating, "AvgRating: \"" + dbRest.AvgRating + "\" \"" + blRest.AvgRating + '"');
-                        Assert.AreEqual(dbRest.City, blRest.City, "City: \"" + dbRest.City + "\" \"" + blRest.City + '"');
-                        Assert.AreEqual(dbRest.ID, blRest.ID, "ID: \"" + dbRest.ID + "\" \"" + blRest.ID + '"');
-                        Assert.AreEqual(dbRest.Name, blRest.Name, "Name: \"" + dbRest.Name + "\" \"" + blRest.Name + '"');
-                        Assert.AreEqual(dbRest.PhoneNum, blRest.PhoneNum, "PhoneNum: \"" + dbRest.PhoneNum + "\" \"" + blRest.PhoneNum + '"');
-                        Assert.AreEqual(dbRest.State, blRest.State, "State: \"" + dbRest.State + "\" \"" + blRest.Address + '"');
-                        Assert.AreEqual(dbRest.ZIP, blRest.ZIP, "ZIP: \"" + dbRest.ZIP + "\" \"" + blRest.ZIP + '"');
-                        Assert.AreEqual(dbRev.Description, blRev.Description, "Description: \"" + dbRev.Description + "\" \"" + blRev.Description + '"');
-                        Assert.AreEqual(dbRev.Rating, blRev.Rating, "Rating: \"" + dbRev.Rating + "\" \"" + blRev.Rating + '"');
-                        Assert.AreEqual(dbRev.RestaurantID, blRev.RestaurantID, "RestaurantID: \"" + dbRev.RestaurantID + "\" \"" + blRev.RestaurantID + '"');
-                        Assert.AreEqual(dbRev.ID, blRev.ID, "ID: \"" + dbRev.ID + "\" \"" + blRev.ID + '"');
-                    }
+                for (int y = 0; y < dbRest.Reviews.Count; y++)
+                {
+                    dbRev = ((List<DataProject.Review>)dbRest.Reviews)[0];
+                    blRev = ((List<LibraryProject.Review>)blRest.Reviews)[0];
+                    Assert.AreEqual(dbRest.Address, blRest.Address, "Address: \"" + dbRest.Address + "\" \"" + blRest.Address + '"');
+                    Assert.AreEqual(dbRest.AvgRating, blRest.AvgRating, "AvgRating: \"" + dbRest.AvgRating + "\" \"" + blRest.AvgRating + '"');
+                    Assert.AreEqual(dbRest.City, blRest.City, "City: \"" + dbRest.City + "\" \"" + blRest.City + '"');
+                    Assert.AreEqual(dbRest.ID, blRest.ID, "ID: \"" + dbRest.ID + "\" \"" + blRest.ID + '"');
+                    Assert.AreEqual(dbRest.Name, blRest.Name, "Name: \"" + dbRest.Name + "\" \"" + blRest.Name + '"');
+                    Assert.AreEqual(dbRest.PhoneNum, blRest.PhoneNum, "PhoneNum: \"" + dbRest.PhoneNum + "\" \"" + blRest.PhoneNum + '"');
+                    Assert.AreEqual(dbRest.State, blRest.State, "State: \"" + dbRest.State + "\" \"" + blRest.Address + '"');
+                    Assert.AreEqual(dbRest.ZIP, blRest.ZIP, "ZIP: \"" + dbRest.ZIP + "\" \"" + blRest.ZIP + '"');
+                    Assert.AreEqual(dbRev.Description, blRev.Description, "Description: \"" + dbRev.Description + "\" \"" + blRev.Description + '"');
+                    Assert.AreEqual(dbRev.Rating, blRev.Rating, "Rating: \"" + dbRev.Rating + "\" \"" + blRev.Rating + '"');
+                    Assert.AreEqual(dbRev.RestaurantID, blRev.RestaurantID, "RestaurantID: \"" + dbRev.RestaurantID + "\" \"" + blRev.RestaurantID + '"');
+                    Assert.AreEqual(dbRev.ID, blRev.ID, "ID: \"" + dbRev.ID + "\" \"" + blRev.ID + '"');
                 }
             }
         }
