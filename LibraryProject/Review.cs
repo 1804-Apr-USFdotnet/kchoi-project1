@@ -9,14 +9,14 @@ namespace LibraryProject
 {
     public class Review
     {
-        private int _reviewerID;
+        private Nullable<int> _reviewerID;
         private int _rating;
         private string _description;
         private int _id;
         private int _restaurantID;
 
         public int ID { get => _id; set => _id = value; }
-        public int ReviewerID { get => _reviewerID; set => _reviewerID = value; }
+        public Nullable<int> ReviewerID { get => _reviewerID; set => _reviewerID = value; }
         [Required]
         public int RestaurantID { get => _restaurantID; set => _restaurantID = value; }
         [Required]
