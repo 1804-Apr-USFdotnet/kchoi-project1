@@ -51,7 +51,16 @@ namespace LibraryProject
 
         public static void CreateReview(Review rev)
         {
+            int restID = rev.RestaurantID;
+            Restaurant rest = ConvertRestaurantFromDB(RestaurantCRUD.ReadRestaurants().Where(x => x.ID == restID).FirstOrDefault());
+
             RestaurantCRUD.CreateReview(ConvertReviewToDB(rev));
+
+            ICollection<Review> revs = FindReviewsByRestaurantID(restID);
+            float avgRating = (float)revs.Average(x => x.Rating);
+            rest.AvgRating = avgRating;
+
+            UpdateRestaurant(rest);
         }
 
         public static DataProject.Restaurant ConvertRestaurantToDB(Restaurant restaurant)
@@ -77,12 +86,30 @@ namespace LibraryProject
 
         public static void UpdateReview(Review rev)
         {
+            int restID = rev.RestaurantID;
+            Restaurant rest = ConvertRestaurantFromDB(RestaurantCRUD.ReadRestaurants().Where(x => x.ID == restID).FirstOrDefault());
+
             RestaurantCRUD.UpdateReview(ConvertReviewToDB(rev));
+            
+            ICollection<Review> revs = FindReviewsByRestaurantID(restID);
+            float avgRating = (float)revs.Average(x => x.Rating);
+            rest.AvgRating = avgRating;
+
+            UpdateRestaurant(rest);
         }
 
         public static void DeleteReviewByID(int id)
         {
+            int restID = RestaurantCRUD.ReadReviews().Where(x => x.ID == id).FirstOrDefault().RestaurantID;
+            Restaurant rest = ConvertRestaurantFromDB(RestaurantCRUD.ReadRestaurants().Where(x => x.ID == restID).FirstOrDefault());
+
             RestaurantCRUD.DeleteReviewByID(id);
+
+            ICollection<Review> revs = FindReviewsByRestaurantID(restID);
+            float avgRating = (float)revs.Average(x => x.Rating);
+            rest.AvgRating = avgRating;
+
+            UpdateRestaurant(rest);
         }
 
         private static Review ConvertReviewFromDB(DataProject.Review dbReview)
