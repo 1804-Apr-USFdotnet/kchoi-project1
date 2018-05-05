@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using PagedList;
+
 using LibraryProject;
 
 namespace RestaurantReviewWebsite.Controllers
@@ -17,8 +19,8 @@ namespace RestaurantReviewWebsite.Controllers
         }
 
         // GET: Search/Search/burger?orderBy=rating
-        public ActionResult Search(string id, string orderBy)
-        {
+        public ActionResult Search(string id, string orderBy, string currentFilter, int? page)
+        {   // TODO : preserve sort while paging
             ViewBag.NameSortParm = String.IsNullOrEmpty(orderBy) ? "name_desc" : "";
             ViewBag.RatingSortParm = orderBy == "rating" ? "rating_asc" : "rating";
 
@@ -26,10 +28,14 @@ namespace RestaurantReviewWebsite.Controllers
             if (!String.IsNullOrEmpty(id))
             {
                 result = Mapper.FindRestaurantsByName(id);
+                page = 1;
             }
             else {
+                id = currentFilter;
                 result = Mapper.GetRestaurants();
             }
+
+            ViewBag.CurrentFilter = id;
 
             switch (orderBy)
             {
@@ -46,7 +52,10 @@ namespace RestaurantReviewWebsite.Controllers
                     result = result.OrderBy(s => s.Name).ToList();
                     break;
             }
-            return View(result);
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(result.ToPagedList(pageNumber, pageSize));
         }
     }
 }

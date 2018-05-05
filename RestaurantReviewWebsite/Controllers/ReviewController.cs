@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using PagedList;
+
 using LibraryProject;
 
 namespace RestaurantReviewWebsite.Controllers
@@ -124,16 +126,19 @@ namespace RestaurantReviewWebsite.Controllers
         }
 
         // GET: Review/List/5
-        public ActionResult List(int? id)
+        public ActionResult List(int? id, int? page)
         {
             if (id == null)
             {
                 return RedirectToAction("Index", "Search");
             }
 
+            ViewBag.RestaurantID = id;
             ViewBag.ReviewerName = null;
 
-            return View(Mapper.FindReviewsByRestaurantID((int)id));
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(Mapper.FindReviewsByRestaurantID((int)id).ToPagedList(pageNumber, pageSize));
         }
     }
 }
