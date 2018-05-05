@@ -1,0 +1,45 @@
+﻿@model IEnumerable<LibraryProject.Review>
+
+@{
+    ViewBag.Title = "Reviews for ";
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Reviewer
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @(string.IsNullOrEmpty(ViewBag.ReviewerName) ? "Anonymous" : ViewBag.ReviewerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+
+@Html.ActionLink("Return to Restaurant Details", "Details", "Restaurant", new { id=Model.ElementAt(0).RestaurantID }, null)
