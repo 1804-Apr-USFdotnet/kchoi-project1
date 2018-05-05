@@ -47,36 +47,6 @@ namespace LibraryProject
 
         public ICollection<Review> Reviews { get => _reviews; set => _reviews = (List<Review>)value; }
 
-
-        public bool AddReview(Review newReview)
-        {
-            bool result;
-            int count = Reviews.Count;
-
-            Reviews.Add(newReview);
-
-            if ((result = Reviews.Count == count + 1))
-            {
-                _avgRating *= count;
-                _avgRating += (float)newReview.Rating;
-                _avgRating /= (count + 1);
-            }
-
-            return result;
-        }
-
-        public void RecalculateAvgRating()
-        {
-            _avgRating = 0f;
-
-            foreach(Review review in Reviews)
-            {
-                _avgRating += (float)review.Rating;
-            }
-
-            _avgRating /= Reviews.Count;
-        }
-
         public override bool Equals(object obj)
         {
             bool result = GetHashCode() == obj.GetHashCode();

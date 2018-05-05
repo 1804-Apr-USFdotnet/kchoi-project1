@@ -81,37 +81,5 @@ namespace Project0Test
             testRestaurant = JsonConvert.DeserializeObject<Restaurant>(testRestaurantJSON);
             Assert.AreEqual(testRestaurant.PhoneNum, "952-462-6704");
         }
-
-        [TestMethod]
-        public void TestRestaurantAddReview()
-        {
-            testRestaurant = JsonConvert.DeserializeObject<Restaurant>(testRestaurantJSON);
-            testReview = JsonConvert.DeserializeObject<Review>(testReviewJSON);
-            if (!testRestaurant.AddReview(testReview))
-            {
-                Assert.Fail("failed to add review");
-            } else
-            {
-                Assert.AreEqual(testReview, ((List<Restaurant>)testRestaurant.Reviews)[0]);
-            }
-        }
-
-        [TestMethod]
-        public void TestRestaurantAvgReview()
-        {
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(ConfigurationManager.AppSettings["DataDirectory"] + ConfigurationManager.AppSettings["RestaurantsFile"]))
-            {
-                testRestaurant = JsonConvert.DeserializeObject<Restaurant>(reader.ReadLine());
-            }
-            testRestaurant.RecalculateAvgRating();
-            float testAvg = testRestaurant.AvgRating;
-            float expectedAvg = 0f;
-            foreach(Review i in testRestaurant.Reviews)
-            {
-                expectedAvg += i.Rating;
-            }
-            expectedAvg /= testRestaurant.Reviews.Count;
-            Assert.AreEqual(expectedAvg, testRestaurant.AvgRating);
-        }
     }
 }
