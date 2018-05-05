@@ -29,9 +29,17 @@ namespace RestaurantReviewWebsite.Controllers
             return View(Mapper.FindReviewByID((int)id));
         }
 
-        // GET: Review/Create
-        public ActionResult Create()
+        // GET: Review/Create/3
+        public ActionResult Create(int? id)
         {
+            if(id == null)
+            {
+                return RedirectToAction("Index", "Search");
+            }
+
+            ViewBag.RestaurantID = id;
+            ViewBag.ReviewerID = "";
+
             return View();
         }
 
@@ -41,18 +49,24 @@ namespace RestaurantReviewWebsite.Controllers
         {
             try
             {
-                // TODO: test
                 Review rev = new Review
                 {
                     RestaurantID = int.Parse(collection["RestaurantID"]),
                     Rating = int.Parse(collection["Rating"]),
-                    ReviewerID = int.Parse(collection["ReviewerID"]),
                     Description = collection["Description"]
                 };
 
+                if (string.IsNullOrEmpty(collection["ReviewerID"]))
+                {
+                    rev.ReviewerID = null;
+                } else
+                {
+                    rev.ReviewerID = int.Parse(collection["ReviewerID"]);
+                }
+
                 Mapper.CreateReview(rev);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("List", new { id = rev.RestaurantID });
             }
             catch
             {
