@@ -74,8 +74,8 @@ namespace RestaurantReviewWebsite.Controllers
             }
         }
 
-        // GET: Review/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: Review/Update/5
+        public ActionResult Update(int? id)
         {
             if (id == null)
             {
@@ -85,13 +85,12 @@ namespace RestaurantReviewWebsite.Controllers
             return View(Mapper.FindReviewByID((int)id));
         }
 
-        // POST: Review/Edit/5
+        // POST: Review/Update/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Update(int id, FormCollection collection)
         {
             try
             {
-                // TODO: test
                 Review rev = new Review
                 {
                     ID = id,
@@ -103,7 +102,7 @@ namespace RestaurantReviewWebsite.Controllers
 
                 Mapper.UpdateReview(rev);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("List", new { id = rev.RestaurantID });
             }
             catch
             {
