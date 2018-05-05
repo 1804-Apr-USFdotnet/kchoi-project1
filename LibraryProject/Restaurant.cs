@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,17 +26,27 @@ namespace LibraryProject
         private float _avgRating = 0f;
 
         public int ID { get => _id; set => _id = value; }
-        public string Address { get => _address; set => _address = value; }
-        public string PhoneNum { get => _phone; set => _phone = value; }
-        public string City { get => _city; set => _city = value; }
-        public string State { get => _state; set => _state = value; }
-        public string ZIP { get => _zip; set => _zip = value; }
+        [Required]
+        [StringLength(50)]
         public string Name { get => _name; set => _name = value; }
+        [JsonIgnore]
+        [Display(Name = "Average Rating")]
+        public float AvgRating { get => _avgRating; set => _avgRating = value; }
+        [StringLength(50)]
+        public string Address { get => _address; set => _address = value; }
+        [StringLength(50)]
+        public string City { get => _city; set => _city = value; }
+        [StringLength(50)]
+        public string State { get => _state; set => _state = value; }
+        [StringLength(10)]
+        public string ZIP { get => _zip; set => _zip = value; }
+        [StringLength(20)]
+        [RegularExpression(@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}")]
+        [Display(Name = "Phone Number")]
+        public string PhoneNum { get => _phone; set => _phone = value; }
 
         public ICollection<Review> Reviews { get => _reviews; set => _reviews = (List<Review>)value; }
 
-        [JsonIgnore]
-        public float AvgRating { get => _avgRating; set => _avgRating = value; }
 
         public bool AddReview(Review newReview)
         {

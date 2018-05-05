@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,32 +15,15 @@ namespace LibraryProject
         private int _id;
         private int _restaurantID;
 
-        public int ReviewerID { get => _reviewerID; set => _reviewerID = value; }
-        public int Rating
-        {
-            get
-            {
-                return _rating;
-            }
-            set
-            {
-                if (value < 0)
-                {
-                    _rating = 0;
-                }
-                else if (value > 5)
-                {
-                    _rating = 5;
-                }
-                else
-                {
-                    _rating = value;
-                }
-            }
-        }
-        public string Description { get => _description; set => _description = value; }
         public int ID { get => _id; set => _id = value; }
+        public int ReviewerID { get => _reviewerID; set => _reviewerID = value; }
+        [Required]
         public int RestaurantID { get => _restaurantID; set => _restaurantID = value; }
+        [Required]
+        [Range(0,5)]
+        public int Rating { get => _rating; set => _rating = value; }
+        [StringLength(200)]
+        public string Description { get => _description; set => _description = value; }
 
         public override bool Equals(object obj)
         {
