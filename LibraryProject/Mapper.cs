@@ -139,7 +139,7 @@ namespace LibraryProject
 
         public static ICollection<Restaurant> FindRestaurantsByName(string key)
         {
-            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().Where(x => x.Name.Contains(key)).ToList());
+            return ConvertRestaurantListFromDB(RestaurantCRUD.ReadRestaurants().Where(x => x.Name.ToLower().Contains(key.ToLower())).ToList());
         }
 
         public static ICollection<Restaurant> GetRestaurantsSortByRating()
