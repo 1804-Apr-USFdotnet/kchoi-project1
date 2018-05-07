@@ -72,7 +72,7 @@ namespace RestaurantReviewWebsite.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("Create", new { id = int.Parse(collection["RestaurantID"])});
             }
         }
 
@@ -108,7 +108,7 @@ namespace RestaurantReviewWebsite.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("Update", new { id = int.Parse(collection["RestaurantID"]) });
             }
         }
 

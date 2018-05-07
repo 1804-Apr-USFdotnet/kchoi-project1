@@ -45,7 +45,7 @@ namespace RestaurantReviewWebsite.Controllers
             }
             catch
             {
-                return View();
+                return View(rest);
             }
         }
 
@@ -125,11 +125,11 @@ namespace RestaurantReviewWebsite.Controllers
 
                 Mapper.UpdateRestaurant(rest);
 
-                return RedirectToAction("Index", "Search");
+                return View(rest);
             }
             catch
             {
-                return View();
+                return RedirectToAction("Update", new { id });
             }
         }
 
