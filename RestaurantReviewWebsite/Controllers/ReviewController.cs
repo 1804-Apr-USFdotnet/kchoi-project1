@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using PagedList;
 
 using LibraryProject;
+using RestaurantReviewWebsite.Models;
 
 namespace RestaurantReviewWebsite.Controllers
 {
@@ -37,13 +38,14 @@ namespace RestaurantReviewWebsite.Controllers
                 return RedirectToAction("Index", "Search");
             }
 
-            ViewBag.RestaurantID = id;
-            ViewBag.ReviewerID = "";
-
-            return View();
+            return View(new ReviewPageViewModel
+            {
+                RestaurantID = (int)id,
+                ReviewerName = ""
+            });
         }
 
-        // POST: Review/Create
+        // POST: Review/Create/3
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -146,12 +148,14 @@ namespace RestaurantReviewWebsite.Controllers
                 return RedirectToAction("Index", "Search");
             }
 
-            ViewBag.RestaurantID = id;
-            ViewBag.ReviewerName = null;
-
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            return View(Mapper.FindReviewsByRestaurantID((int)id).ToPagedList(pageNumber, pageSize));
+            return View(new ReviewPageViewModel
+            {
+                RestaurantID = (int)id,
+                ReviewerName = "",
+                List = Mapper.FindReviewsByRestaurantID((int)id).ToPagedList(pageNumber, pageSize)
+            });
         }
     }
 }

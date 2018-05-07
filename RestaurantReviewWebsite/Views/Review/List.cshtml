@@ -1,57 +1,59 @@
-﻿@model PagedList.IPagedList<LibraryProject.Review>
+﻿@model RestaurantReviewWebsite.Models.ReviewPageViewModel
 @using PagedList.Mvc;
-
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Reviews for ";
 }
 
 <p>
-    @Html.ActionLink("Add New Review", "Create", new { id = ViewBag.RestaurantID } )
+    @Html.ActionLink("Add New Review", "Create", new { id = Model.RestaurantID })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Reviewer
-        </th>
-        <th>
-            Rating
-        </th>
-        <th>
-            Description
-        </th>
-        <th></th>
-    </tr>
-@if (Model.Count > 0) {
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @(string.IsNullOrEmpty(ViewBag.ReviewerName) ? "Anonymous" : ViewBag.ReviewerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Update", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
-        </tr>
-    }
-} else
+@if (Model.List.Count > 0)
 {
-    <tr>This restaurant has no reviews.</tr>
+    <table class="table">
+        <tr>
+            <th>
+                Reviewer
+            </th>
+            <th>
+                Rating
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.List)
+        {
+            <tr>
+                <td>
+                    @(string.IsNullOrEmpty(Model.ReviewerName) ? "Anonymous" : Model.ReviewerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Update", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div>This restaurant has no reviews.</div>
 }
 
-</table>
-
-@Html.ActionLink("Return to Restaurant Details", "Details", "Restaurant", new { id = ViewBag.RestaurantID }, null)
+@Html.ActionLink("Return to Restaurant Details", "Details", "Restaurant", new { id = Model.RestaurantID }, null)
 
 <br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-@ViewBag.CurrentSort
-@Html.PagedListPager(Model, page => Url.Action("List",
-    new { page, orderBy = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    Page @(Model.List.PageCount < Model.List.PageNumber ? 0 : Model.List.PageNumber) of @Model.List.PageCount
+
+    @Html.PagedListPager(Model.List, page => Url.Action("List",
+            new { page, id = Model.RestaurantID }))
