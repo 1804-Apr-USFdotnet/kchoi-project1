@@ -24,7 +24,7 @@ namespace RestaurantReviewWebsite.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Index", "Search");
+                return RedirectToAction("Search", "Restaurant");
             }
 
             return View(Mapper.FindReviewByID((int)id));
@@ -35,7 +35,7 @@ namespace RestaurantReviewWebsite.Controllers
         {
             if(id == null)
             {
-                return RedirectToAction("Index", "Search");
+                return RedirectToAction("Search", "Restaurant");
             }
 
             return View(new ReviewPageViewModel
@@ -54,8 +54,8 @@ namespace RestaurantReviewWebsite.Controllers
                 Review rev = new Review
                 {
                     RestaurantID = int.Parse(collection["RestaurantID"]),
-                    Rating = int.Parse(collection["Rating"]),
-                    Description = collection["Description"]
+                    Rating = int.Parse(collection["Review.Rating"]),
+                    Description = collection["Review.Description"]
                 };
 
                 if (string.IsNullOrEmpty(collection["ReviewerID"]))
@@ -81,7 +81,7 @@ namespace RestaurantReviewWebsite.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Index", "Search");
+                return RedirectToAction("Search", "Restaurant");
             }
 
             return View(Mapper.FindReviewByID((int)id));
@@ -117,7 +117,7 @@ namespace RestaurantReviewWebsite.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Index", "Search");
+                return RedirectToAction("Search", "Restaurant");
             }
 
             return View(Mapper.FindReviewByID((int)id));
@@ -145,7 +145,7 @@ namespace RestaurantReviewWebsite.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Index", "Search");
+                return RedirectToAction("Search", "Restaurant");
             }
 
             int pageSize = 10;

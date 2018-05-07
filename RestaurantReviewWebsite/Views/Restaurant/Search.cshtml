@@ -1,0 +1,79 @@
+﻿@model RestaurantReviewWebsite.Models.RestaurantPageViewModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Search Results";
+}
+<p>
+    @Html.ActionLink("Add New Restaurant", "Create")
+</p>
+@if (Model.List.Count > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Name", "Search", new { orderBy = Model.NameSortParm, searchString = Model.SearchString })
+            </th>
+            <th>
+                @Html.ActionLink("Average Rating", "Search", new { orderBy = Model.RatingSortParm, searchString = Model.SearchString })
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                State
+            </th>
+            <th>
+                ZIP
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.List)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvgRating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZIP)
+            </td>
+            <td>
+                @(!String.IsNullOrEmpty(item.PhoneNum) ? Html.DisplayFor(modelItem => item.PhoneNum) : Html.Raw("N/A"))
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Update", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div>There are no restaurants to display.</div>
+}
+<br />
+    Page @(Model.List.PageCount < Model.List.PageNumber ? 0 : Model.List.PageNumber) of @Model.List.PageCount
+
+    @Html.PagedListPager(Model.List, page => Url.Action("Search",
+            new { page, orderBy = ViewBag.CurrentSort, searchString = ViewBag.SearchString }))
