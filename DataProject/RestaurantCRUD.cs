@@ -125,7 +125,7 @@ namespace DataProject
                 Restaurant oldRestaurant = db.Restaurants.Find(newRestaurant.ID);
 
                 oldRestaurant.Address = newRestaurant.Address;
-                oldRestaurant.AvgRating = newRestaurant.AvgRating;
+                oldRestaurant.AvgRating = (float)db.Reviews.Where(x => x.RestaurantID == newRestaurant.ID).Average(x => x.Rating);
                 oldRestaurant.City = newRestaurant.City;
                 oldRestaurant.ID = newRestaurant.ID;
                 oldRestaurant.Name = newRestaurant.Name;

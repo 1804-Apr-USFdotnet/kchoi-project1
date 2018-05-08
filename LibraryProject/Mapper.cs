@@ -10,18 +10,26 @@ namespace LibraryProject
     {
         public static Restaurant ConvertRestaurantFromDB(DataProject.Restaurant dbRestaurant)
         {
-            Restaurant result = new Restaurant
+            Restaurant result;
+            if (dbRestaurant == null)
             {
-                ID = dbRestaurant.ID,
-                Address = dbRestaurant.Address,
-                PhoneNum = dbRestaurant.PhoneNum,
-                City = dbRestaurant.City,
-                State = dbRestaurant.State,
-                ZIP = dbRestaurant.ZIP,
-                Name = dbRestaurant.Name,
-                AvgRating = (float)dbRestaurant.AvgRating
-            };
+                result = null;
+            }
+            else
+            {
+                result = new Restaurant
+                {
+                    ID = dbRestaurant.ID,
+                    Address = dbRestaurant.Address,
+                    PhoneNum = dbRestaurant.PhoneNum,
+                    City = dbRestaurant.City,
+                    State = dbRestaurant.State,
+                    ZIP = dbRestaurant.ZIP,
+                    Name = dbRestaurant.Name,
+                    AvgRating = (float)dbRestaurant.AvgRating
+                };
 
+            }
             return result;
         }
 
@@ -106,22 +114,37 @@ namespace LibraryProject
             RestaurantCRUD.DeleteReviewByID(id);
 
             ICollection<Review> revs = FindReviewsByRestaurantID(restID);
-            float avgRating = (float)revs.Average(x => x.Rating);
-            rest.AvgRating = avgRating;
+            if(revs.Count > 0)
+            {
+                float avgRating = (float)revs.Average(x => x.Rating);
+                rest.AvgRating = avgRating;
+            }
+            else
+            {
+                rest.AvgRating = 0f;
+            }
 
             UpdateRestaurant(rest);
         }
 
         private static Review ConvertReviewFromDB(DataProject.Review dbReview)
         {
-            Review result = new Review
+            Review result;
+            if (dbReview == null)
             {
-                Description = dbReview.Description,
-                Rating = (int)dbReview.Rating,
-                ReviewerID = (dbReview.ReviewerID != null ? (int)dbReview.ReviewerID : -1),
-                ID = dbReview.ID,
-                RestaurantID = dbReview.RestaurantID
-            };
+                result = null;
+            }
+            else
+            {
+                result = new Review
+                {
+                    Description = dbReview.Description,
+                    Rating = (int)dbReview.Rating,
+                    ReviewerID = (dbReview.ReviewerID != null ? (int)dbReview.ReviewerID : -1),
+                    ID = dbReview.ID,
+                    RestaurantID = dbReview.RestaurantID
+                };
+            }
 
             return result;
         }

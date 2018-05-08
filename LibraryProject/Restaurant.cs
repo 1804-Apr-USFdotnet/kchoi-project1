@@ -27,21 +27,20 @@ namespace LibraryProject
 
         public int ID { get => _id; set => _id = value; }
         [Required]
-        [StringLength(50)]
+        [RegularExpression("^[A-Za-z 0-9]{0,50}$")]
         public string Name { get => _name; set => _name = value; }
         [JsonIgnore]
         [Display(Name = "Average Rating")]
         public float AvgRating { get => _avgRating; set => _avgRating = value; }
-        [StringLength(50)]
+        [RegularExpression("^[A-Za-z 0-9]{0,50}$")]
         public string Address { get => _address; set => _address = value; }
-        [StringLength(50)]
+        [RegularExpression("^[A-Za-z 0-9]{0,50}$")]
         public string City { get => _city; set => _city = value; }
-        [StringLength(50)]
+        [RegularExpression("[A-Z]{2}")]
         public string State { get => _state; set => _state = value; }
-        [StringLength(10)]
+        [DataType(DataType.PostalCode)]
         public string ZIP { get => _zip; set => _zip = value; }
-        [StringLength(20)]
-        [RegularExpression(@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}")]
+        [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
         public string PhoneNum { get => _phone; set => _phone = value; }
 

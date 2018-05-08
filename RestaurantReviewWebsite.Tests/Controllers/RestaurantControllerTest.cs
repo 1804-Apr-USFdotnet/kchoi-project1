@@ -2,6 +2,11 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Web.Mvc;
+
+using LibraryProject;
+using RestaurantReviewWebsite.Controllers;
+using System.Web.UI.WebControls;
 
 namespace RestaurantReviewWebsite.Tests.Controllers
 {
@@ -12,68 +17,57 @@ namespace RestaurantReviewWebsite.Tests.Controllers
     public class RestaurantControllerTest
     {
         [TestMethod]
-        public void Create()
+        public void RestaurantControllerTestDeleteModelBinding()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            RestaurantController controller = new RestaurantController();
+            
+            ViewResult view = (ViewResult)controller.Delete(1);
+            var model = view.Model;
 
-            // Act
-            //ViewResult result = controller.Index() as ViewResult;
-
-            // Assert
-            //Assert.IsNotNull(result);
+            Assert.IsNotNull(model);
         }
 
         [TestMethod]
-        public void Delete()
+        public void RestaurantControllerTestDetailsNull()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            RestaurantController controller = new RestaurantController();
 
-            // Act
-            //ViewResult result = controller.About() as ViewResult;
+            ActionResult result = controller.Details(10);
 
-            // Assert
-            //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.IsTrue(result is RedirectToRouteResult);
         }
 
         [TestMethod]
-        public void Details()
+        public void RestaurantControllerTestDetailsData()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            RestaurantController controller = new RestaurantController();
 
-            // Act
-            //ViewResult result = controller.Contact() as ViewResult;
+            ViewResult result = (ViewResult)controller.Details(1);
+            var model = (Restaurant)result.Model;
 
-            // Assert
-            //Assert.IsNotNull(result);
+            Assert.AreEqual(1, model.ID);
         }
 
         [TestMethod]
-        public void Search()
+        public void RestaurantControllerTestSearch()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            RestaurantController controller = new RestaurantController();
 
-            // Act
-            //ViewResult result = controller.Index() as ViewResult;
+            ViewResult view = controller.Search("burger", null, null) as ViewResult;
+            var model = view.Model;
 
-            // Assert
-            //Assert.IsNotNull(result);
+            Assert.IsNotNull(model is Models.RestaurantPageViewModel);
         }
 
         [TestMethod]
-        public void Update()
+        public void RestaurantControllerTestUpdateModelBinding()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            RestaurantController controller = new RestaurantController();
 
-            // Act
-            //ViewResult result = controller.About() as ViewResult;
+            ViewResult view = controller.Update(1) as ViewResult;
+            var model = view.Model;
 
-            // Assert
-            //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.IsNotNull(model);
         }
     }
 }

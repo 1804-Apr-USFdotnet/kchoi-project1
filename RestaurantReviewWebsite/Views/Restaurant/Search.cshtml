@@ -12,25 +12,25 @@
     <table class="table">
         <tr>
             <th>
-                @Html.ActionLink("Name", "Search", new { orderBy = Model.NameSortParm, searchString = Model.SearchString })
+                @Html.ActionLink(Html.DisplayNameFor(model => Model.Restaurant.Name).ToHtmlString(), "Search", new { orderBy = Model.NameSortParm, searchString = Model.SearchString })
             </th>
             <th>
-                @Html.ActionLink("Average Rating", "Search", new { orderBy = Model.RatingSortParm, searchString = Model.SearchString })
+                @Html.ActionLink(Html.DisplayNameFor(model => Model.Restaurant.AvgRating).ToHtmlString(), "Search", new { orderBy = Model.RatingSortParm, searchString = Model.SearchString })
             </th>
             <th>
-                Address
+                @Html.DisplayNameFor(model => Model.Restaurant.Address)
             </th>
             <th>
-                City
+                @Html.DisplayNameFor(model => Model.Restaurant.City)
             </th>
             <th>
-                State
+                @Html.DisplayNameFor(model => Model.Restaurant.State)
             </th>
             <th>
-                ZIP
+                @Html.DisplayNameFor(model => Model.Restaurant.ZIP)
             </th>
             <th>
-                Phone Number
+                @Html.DisplayNameFor(model => Model.Restaurant.PhoneNum)
             </th>
             <th></th>
         </tr>
@@ -44,16 +44,16 @@
                 @Html.DisplayFor(modelItem => item.AvgRating)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Address)
+                @(!String.IsNullOrEmpty(item.Address) ? Html.DisplayFor(modelItem => item.Address) : Html.Raw("N/A"))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City)
+                @(!String.IsNullOrEmpty(item.City) ? Html.DisplayFor(modelItem => item.City) : Html.Raw("N/A"))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.State)
+                @(!String.IsNullOrEmpty(item.State) ? Html.DisplayFor(modelItem => item.State) : Html.Raw("N/A"))
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ZIP)
+                @(!String.IsNullOrEmpty(item.ZIP) ? Html.DisplayFor(modelItem => item.ZIP) : Html.Raw("N/A"))
             </td>
             <td>
                 @(!String.IsNullOrEmpty(item.PhoneNum) ? Html.DisplayFor(modelItem => item.PhoneNum) : Html.Raw("N/A"))
@@ -76,4 +76,4 @@ else
     Page @(Model.List.PageCount < Model.List.PageNumber ? 0 : Model.List.PageNumber) of @Model.List.PageCount
 
     @Html.PagedListPager(Model.List, page => Url.Action("Search",
-            new { page, orderBy = ViewBag.CurrentSort, searchString = ViewBag.SearchString }))
+            new { page, orderBy = Model.CurrentSort, searchString = Model.SearchString }))

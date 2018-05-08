@@ -19,8 +19,8 @@
                 @Html.ActionLink("RestaurantReviews", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div>
-                <form method="get" title="Restaurant Search" action="/Search">
-                    <input type="text" required name="searchString" placeholder="Restaurant Search" />
+                <form method="get" title="Restaurant Search" action="/Restaurant/Search">
+                    <input type="text" name="searchString" placeholder="Restaurant Search" />
                     <input type="submit" value="Search" />
                 </form>
             </div>

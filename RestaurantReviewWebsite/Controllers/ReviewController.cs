@@ -1,10 +1,11 @@
-﻿using System;
+﻿using NLog;
+using PagedList;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
-using PagedList;
 
 using LibraryProject;
 using RestaurantReviewWebsite.Models;
@@ -13,10 +14,12 @@ namespace RestaurantReviewWebsite.Controllers
 {
     public class ReviewController : Controller
     {
+        Logger logger = LogManager.GetCurrentClassLogger();
+
         // GET: Review
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Search", "Restaurant");
         }
 
         // GET: Review/Details/5
@@ -27,7 +30,22 @@ namespace RestaurantReviewWebsite.Controllers
                 return RedirectToAction("Search", "Restaurant");
             }
 
-            return View(Mapper.FindReviewByID((int)id));
+            Review rev = Mapper.FindReviewByID((int)id);
+            if (rev != null)
+            {
+                ReviewPageViewModel result = new ReviewPageViewModel
+                {
+                    Review = rev,
+                    RestaurantID = rev.RestaurantID,
+                    ReviewerName = ""
+                };
+
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("Search", "Restaurant");
+            }
         }
 
         // GET: Review/Create/3
@@ -38,11 +56,21 @@ namespace RestaurantReviewWebsite.Controllers
                 return RedirectToAction("Search", "Restaurant");
             }
 
-            return View(new ReviewPageViewModel
+            Restaurant rest = Mapper.FindRestaurantByID((int)id);
+            if (rest != null)
             {
-                RestaurantID = (int)id,
-                ReviewerName = ""
-            });
+                ReviewPageViewModel result = new ReviewPageViewModel
+                {
+                    RestaurantID = rest.ID,
+                    ReviewerName = ""
+                };
+
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("Search", "Restaurant");
+            }
         }
 
         // POST: Review/Create/3
@@ -70,8 +98,9 @@ namespace RestaurantReviewWebsite.Controllers
 
                 return RedirectToAction("List", new { id = rev.RestaurantID });
             }
-            catch
+            catch (Exception e)
             {
+                logger.Error(e.StackTrace);
                 return RedirectToAction("Create", new { id = int.Parse(collection["RestaurantID"])});
             }
         }
@@ -83,8 +112,16 @@ namespace RestaurantReviewWebsite.Controllers
             {
                 return RedirectToAction("Search", "Restaurant");
             }
-
-            return View(Mapper.FindReviewByID((int)id));
+            
+            Review rev = Mapper.FindReviewByID((int)id);
+            if (rev != null)
+            {
+                return View(rev);
+            }
+            else
+            {
+                return RedirectToAction("Search", "Restaurant");
+            }
         }
 
         // POST: Review/Update/5
@@ -106,8 +143,9 @@ namespace RestaurantReviewWebsite.Controllers
 
                 return RedirectToAction("List", new { id = rev.RestaurantID });
             }
-            catch
+            catch (Exception e)
             {
+                logger.Error(e.StackTrace);
                 return RedirectToAction("Update", new { id = int.Parse(collection["RestaurantID"]) });
             }
         }
@@ -120,7 +158,15 @@ namespace RestaurantReviewWebsite.Controllers
                 return RedirectToAction("Search", "Restaurant");
             }
 
-            return View(Mapper.FindReviewByID((int)id));
+            Review rev = Mapper.FindReviewByID((int)id);
+            if (rev != null)
+            {
+                return View(rev);
+            }
+            else
+            {
+                return RedirectToAction("Search", "Restaurant");
+            }
         }
 
         // POST: Review/Delete/5
@@ -134,8 +180,9 @@ namespace RestaurantReviewWebsite.Controllers
 
                 return RedirectToAction("List", new { id = rev.RestaurantID });
             }
-            catch
+            catch (Exception e)
             {
+                logger.Error(e.StackTrace);
                 return View();
             }
         }

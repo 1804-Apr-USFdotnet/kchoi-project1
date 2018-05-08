@@ -20,9 +20,9 @@ namespace LibraryProject
         [Required]
         public int RestaurantID { get => _restaurantID; set => _restaurantID = value; }
         [Required]
-        [Range(0,5)]
+        [Range(1,5)]
         public int Rating { get => _rating; set => _rating = value; }
-        [StringLength(200)]
+        [RegularExpression("^[A-Za-z 0-9]{0,200}$")]
         public string Description { get => _description; set => _description = value; }
 
         public override bool Equals(object obj)

@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using NLog;
+using PagedList;
 
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace RestaurantReviewWebsite.Controllers
 {
     public class RestaurantController : Controller
     {
+        Logger logger = LogManager.GetCurrentClassLogger();
+
         // GET: Restaurant
         public ActionResult Index()
         {
@@ -27,29 +30,30 @@ namespace RestaurantReviewWebsite.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
+            Restaurant rest = new Restaurant
+            {
+                Name = collection["Name"],
+                Address = collection["Address"],
+                City = collection["City"],
+                State = collection["State"],
+                PhoneNum = collection["PhoneNum"],
+                ZIP = collection["ZIP"]
+            };
+
             try
             {
-                Restaurant rest = new Restaurant
-                {
-                    Name = collection["Name"],
-                    Address = collection["Address"],
-                    City = collection["City"],
-                    State = collection["State"],
-                    PhoneNum = collection["PhoneNum"],
-                    ZIP = collection["ZIP"]
-                };
-
                 Mapper.CreateRestaurant(rest);
 
                 return RedirectToAction("Search");
             }
-            catch
+            catch (Exception e)
             {
+                logger.Error(e.StackTrace);
                 return View(rest);
             }
         }
 
-        // GET: Restaurant/Search/
+        // GET: Restaurant/Search?searchString=burger
         public ActionResult Search(string orderBy, string searchString, int? page)
         {
             Models.RestaurantPageViewModel result = new Models.RestaurantPageViewModel
@@ -98,12 +102,21 @@ namespace RestaurantReviewWebsite.Controllers
         // GET: Restaurant/Update/5
         public ActionResult Update(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return RedirectToAction("Search");
             }
 
-            return View(Mapper.FindRestaurantByID((int)id));
+            Restaurant rest = Mapper.FindRestaurantByID((int)id);
+
+            if (rest != null)
+            {
+                return View(rest);
+            }
+            else
+            {
+                return RedirectToAction("Search");
+            }
         }
 
         // POST: Restaurant/Update/5
@@ -113,7 +126,7 @@ namespace RestaurantReviewWebsite.Controllers
             try
             {
                 Restaurant rest = new Restaurant
-                {
+                {   
                     ID = id,
                     Name = collection["Name"],
                     Address = collection["Address"],
@@ -125,10 +138,11 @@ namespace RestaurantReviewWebsite.Controllers
 
                 Mapper.UpdateRestaurant(rest);
 
-                return View(rest);
+                return RedirectToAction("Details", new { id });
             }
-            catch
+            catch (Exception e)
             {
+                logger.Error(e.StackTrace);
                 return RedirectToAction("Update", new { id });
             }
         }
@@ -141,7 +155,16 @@ namespace RestaurantReviewWebsite.Controllers
                 return RedirectToAction("Search");
             }
 
-            return View(Mapper.FindRestaurantByID((int)id));
+            Restaurant rest = Mapper.FindRestaurantByID((int)id);
+
+            if (rest != null)
+            {
+                return View(rest);
+            }
+            else
+            {
+                return RedirectToAction("Search");
+            }
         }
 
         // POST: Restaurant/Delete/5
@@ -154,8 +177,9 @@ namespace RestaurantReviewWebsite.Controllers
 
                 return RedirectToAction("Search");
             }
-            catch
+            catch (Exception e)
             {
+                logger.Error(e.StackTrace);
                 return View();
             }
         }
@@ -168,7 +192,15 @@ namespace RestaurantReviewWebsite.Controllers
                 return RedirectToAction("Search");
             }
 
-            return View(Mapper.FindRestaurantByID((int)id));
+            Restaurant rest = Mapper.FindRestaurantByID((int)id);
+
+            if(rest != null) {
+                return View(rest);
+            }
+            else
+            {
+                return RedirectToAction("Search");
+            }
         }
     }
 }

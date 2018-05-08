@@ -1,74 +1,66 @@
 ﻿using System;
+using System.Web.Mvc;
+using LibraryProject;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RestaurantReviewWebsite.Controllers;
 
-namespace RestaurantReviewWebsite.Tests.Controllers
+namespace ReviewReviewWebsite.Tests.Controllers
 {
     [TestClass]
     public class ReviewControllerTest
     {
         [TestMethod]
-        public void Create()
+        public void ReviewControllerTestDeleteModelBinding()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            ReviewController controller = new ReviewController();
 
-            // Act
-            //ViewResult result = controller.Index() as ViewResult;
+            ViewResult view = (ViewResult)controller.Delete(1);
+            var model = view.Model;
 
-            // Assert
-            //Assert.IsNotNull(result);
+            Assert.IsNotNull(model);
         }
 
         [TestMethod]
-        public void Delete()
+        public void ReviewControllerTestDetailsNull()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            ReviewController controller = new ReviewController();
 
-            // Act
-            //ViewResult result = controller.About() as ViewResult;
+            ActionResult result = controller.Details(100);
 
-            // Assert
-            //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.IsTrue(result is RedirectToRouteResult);
         }
 
         [TestMethod]
-        public void Details()
+        public void ReviewControllerTestDetailsData()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            ReviewController controller = new ReviewController();
 
-            // Act
-            //ViewResult result = controller.Contact() as ViewResult;
+            ViewResult result = (ViewResult)controller.Details(1);
+            var model = (RestaurantReviewWebsite.Models.ReviewPageViewModel)result.Model;
 
-            // Assert
-            //Assert.IsNotNull(result);
+            Assert.AreEqual(1, model.Review.ID);
         }
 
         [TestMethod]
-        public void List()
+        public void ReviewControllerTestSearch()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            ReviewController controller = new ReviewController();
 
-            // Act
-            //ViewResult result = controller.Index() as ViewResult;
+            ViewResult view = controller.List(1, null) as ViewResult;
+            var model = view.Model;
 
-            // Assert
-            //Assert.IsNotNull(result);
+            Assert.IsNotNull(model is RestaurantReviewWebsite.Models.ReviewPageViewModel);
         }
 
         [TestMethod]
-        public void Update()
+        public void ReviewControllerTestUpdateModelBinding()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            ReviewController controller = new ReviewController();
 
-            // Act
-            //ViewResult result = controller.About() as ViewResult;
+            ViewResult view = controller.Update(1) as ViewResult;
+            var model = view.Model;
 
-            // Assert
-            //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.IsNotNull(model);
         }
     }
 }

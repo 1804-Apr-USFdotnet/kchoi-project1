@@ -13,7 +13,7 @@ namespace RestaurantReviewWebsite.Tests.Controllers
     public class HomeControllerTest
     {
         [TestMethod]
-        public void Index()
+        public void TestHomeControllerIndex()
         {
             // Arrange
             HomeController controller = new HomeController();
@@ -26,7 +26,7 @@ namespace RestaurantReviewWebsite.Tests.Controllers
         }
 
         [TestMethod]
-        public void About()
+        public void TestHomeControllerAbout()
         {
             // Arrange
             HomeController controller = new HomeController();
@@ -39,7 +39,7 @@ namespace RestaurantReviewWebsite.Tests.Controllers
         }
 
         [TestMethod]
-        public void Contact()
+        public void TestHomeControllerContact()
         {
             // Arrange
             HomeController controller = new HomeController();
