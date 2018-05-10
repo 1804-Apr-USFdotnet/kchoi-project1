@@ -1,0 +1,27 @@
+node {
+    stage('import') {
+        git 'https://github.com/1804-Apr-USFdotnet/kchoi-project1.git'
+    }
+    stage('build') {
+        try {
+            bat 'nuget restore'
+            bat 'msbuild'
+        } catch(exc) {
+            slackSend 'build failed!'
+        }
+    }
+    stage('test') {
+        bat "VSTest.Console.exe RestaurantReviewWebsite.Tests\\bin\\Debug\\RestaurantReviewWebsite.Tests.dll"
+    }
+    stage('analyze') {
+        
+    }
+    stage('package') {
+        bat 'msbuild RestaurantReviewWebsite /t:package'
+    }
+    stage('deploy') {
+        dir('RestaurantReviewWebsite\\obj\\Debug\\Package') {
+            bat "\"C:\\Program Files\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe\" -source:package='C:\\Program Files (x86)\\Jenkins\\workspace\\Project-1\\RestaurantReviewWebsite\\obj\\Debug\\Package\\RestaurantReviewWebsite.zip' -dest:auto,computerName=\"https://18.217.26.31:8172/msdeploy.axd\",userName=\"Administrator\",password=\"${env.deploy_password}\",authtype=\"basic\",includeAcls=\"False\" -verb:sync -disableLink:AppPoolExtension -disableLink:ContentExtension -disableLink:CertificateExtension -setParamFile:\"C:\\Program Files (x86)\\Jenkins\\workspace\\Project-1\\RestaurantReviewWebsite\\obj\\Debug\\Package\\RestaurantReviewWebsite.SetParameters.xml\" -AllowUntrusted=True"
+        }
+    }
+}
