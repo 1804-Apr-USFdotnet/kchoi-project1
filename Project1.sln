@@ -7,11 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryProject", "LibraryPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataProject", "DataProject\DataProject.csproj", "{FE5C522A-6BCE-453F-BEE8-D60F01B64B8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1Test", "E:\Documents\Revature\kchoi-project1\Project1Test\Project1Test.csproj", "{9B8CDA75-091A-49E4-81AF-EA5F2FC0BCA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1Test", "Project1Test\Project1Test.csproj", "{9B8CDA75-091A-49E4-81AF-EA5F2FC0BCA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantReviewWebsite", "E:\Documents\Revature\kchoi-project1\RestaurantReviewWebsite\RestaurantReviewWebsite.csproj", "{B07C69A6-60F8-4CAE-AD37-63B7B58F17D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantReviewWebsite", "RestaurantReviewWebsite\RestaurantReviewWebsite.csproj", "{B07C69A6-60F8-4CAE-AD37-63B7B58F17D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantReviewWebsite.Tests", "E:\Documents\Revature\kchoi-project1\RestaurantReviewWebsite.Tests\RestaurantReviewWebsite.Tests.csproj", "{1906FD02-BCE5-4610-986F-54D76A769C96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantReviewWebsite.Tests", "RestaurantReviewWebsite.Tests\RestaurantReviewWebsite.Tests.csproj", "{1906FD02-BCE5-4610-986F-54D76A769C96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
