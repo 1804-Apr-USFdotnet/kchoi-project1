@@ -8,20 +8,40 @@ node {
             bat 'msbuild'
         } catch(exc) {
             slackSend 'build failed!'
+            throw exc
         }
     }
     stage('test') {
-        bat "VSTest.Console.exe RestaurantReviewWebsite.Tests\\bin\\Debug\\RestaurantReviewWebsite.Tests.dll"
+		try {
+            bat "VSTest.Console.exe RestaurantReviewWebsite.Tests\\bin\\Debug\\RestaurantReviewWebsite.Tests.dll"
+		} catch(exc) {
+            slackSend 'test failed!'
+            throw exc
+        } 
     }
     stage('analyze') {
-        
+        try {
+        } catch(exc) {
+            slackSend 'analyze failed!'
+            throw exc
+        }
     }
     stage('package') {
-        bat 'msbuild RestaurantReviewWebsite /t:package'
+		try {
+			bat 'msbuild RestaurantReviewWebsite /t:package'
+        } catch(exc) {
+            slackSend 'package failed!'
+            throw exc
+        }
     }
     stage('deploy') {
-        dir('RestaurantReviewWebsite\\obj\\Debug\\Package') {
-            bat "\"C:\\Program Files\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe\" -source:package='C:\\Program Files (x86)\\Jenkins\\workspace\\Project-1\\RestaurantReviewWebsite\\obj\\Debug\\Package\\RestaurantReviewWebsite.zip' -dest:auto,computerName=\"https://18.217.26.31:8172/msdeploy.axd\",userName=\"Administrator\",password=\"${env.deploy_password}\",authtype=\"basic\",includeAcls=\"False\" -verb:sync -disableLink:AppPoolExtension -disableLink:ContentExtension -disableLink:CertificateExtension -setParamFile:\"C:\\Program Files (x86)\\Jenkins\\workspace\\Project-1\\RestaurantReviewWebsite\\obj\\Debug\\Package\\RestaurantReviewWebsite.SetParameters.xml\" -AllowUntrusted=True"
+		try {
+			dir('RestaurantReviewWebsite\\obj\\Debug\\Package') {
+				bat "\"C:\\Program Files\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe\" -source:package='C:\\Program Files (x86)\\Jenkins\\workspace\\Project-1\\RestaurantReviewWebsite\\obj\\Debug\\Package\\RestaurantReviewWebsite.zip' -dest:auto,computerName=\"https://18.217.26.31:8172/msdeploy.axd\",userName=\"Administrator\",password=\"${env.deploy_password}\",authtype=\"basic\",includeAcls=\"False\" -verb:sync -disableLink:AppPoolExtension -disableLink:ContentExtension -disableLink:CertificateExtension -setParamFile:\"C:\\Program Files (x86)\\Jenkins\\workspace\\Project-1\\RestaurantReviewWebsite\\obj\\Debug\\Package\\RestaurantReviewWebsite.SetParameters.xml\" -AllowUntrusted=True"
+			}
+        } catch(exc) {
+            slackSend 'deploy failed!'
+            throw exc
         }
     }
 }
