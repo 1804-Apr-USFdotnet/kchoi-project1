@@ -125,13 +125,21 @@ namespace DataProject
                 Restaurant oldRestaurant = db.Restaurants.Find(newRestaurant.ID);
 
                 oldRestaurant.Address = newRestaurant.Address;
-                oldRestaurant.AvgRating = (float)db.Reviews.Where(x => x.RestaurantID == newRestaurant.ID).Average(x => x.Rating);
                 oldRestaurant.City = newRestaurant.City;
                 oldRestaurant.ID = newRestaurant.ID;
                 oldRestaurant.Name = newRestaurant.Name;
                 oldRestaurant.PhoneNum = newRestaurant.PhoneNum;
                 oldRestaurant.State = newRestaurant.State;
                 oldRestaurant.ZIP = newRestaurant.ZIP;
+
+                ICollection<Review> reviews = db.Reviews.Where(x => x.RestaurantID == newRestaurant.ID).ToList();
+                if (reviews.Count > 0)
+                { 
+                    oldRestaurant.AvgRating = (float)reviews.Average(x => x.Rating);
+                } else
+                {
+                    oldRestaurant.AvgRating = 0f;
+                }
 
                 try
                 {
