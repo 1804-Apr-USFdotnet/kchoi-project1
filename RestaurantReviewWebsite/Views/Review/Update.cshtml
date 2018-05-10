@@ -1,9 +1,15 @@
 ﻿@model LibraryProject.Review
 
+@{
+    ViewBag.Title = "Edit Review Details";
+}
+
+<h4>@ViewBag.ErrorMessage</h4>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Review</h4>
         <hr />

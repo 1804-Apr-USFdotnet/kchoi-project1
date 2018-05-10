@@ -4,6 +4,8 @@
     ViewBag.Title = "Edit Restaurant Details";
 }
 
+<h4>@ViewBag.ErrorMessage</h4>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()

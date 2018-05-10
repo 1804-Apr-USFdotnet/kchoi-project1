@@ -42,6 +42,11 @@ namespace RestaurantReviewWebsite.Controllers
 
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception("Form validation failed!");
+                }
+
                 Mapper.CreateRestaurant(rest);
 
                 return RedirectToAction("Search");
@@ -49,6 +54,9 @@ namespace RestaurantReviewWebsite.Controllers
             catch (Exception e)
             {
                 logger.Error(e.StackTrace);
+
+                ViewBag.ErrorMessage = "Sorry, something went wrong.";
+
                 return View(rest);
             }
         }
@@ -125,6 +133,11 @@ namespace RestaurantReviewWebsite.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception("Form validation failed!");
+                }
+
                 Restaurant rest = new Restaurant
                 {   
                     ID = id,
@@ -143,6 +156,9 @@ namespace RestaurantReviewWebsite.Controllers
             catch (Exception e)
             {
                 logger.Error(e.StackTrace);
+
+                ViewBag.ErrorMessage = "Sorry, something went wrong.";
+
                 return RedirectToAction("Update", new { id });
             }
         }
@@ -173,6 +189,11 @@ namespace RestaurantReviewWebsite.Controllers
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    throw new Exception("Form validation failed!");
+                }
+
                 Mapper.DeleteRestaurantByID(id);
 
                 return RedirectToAction("Search");
@@ -180,6 +201,9 @@ namespace RestaurantReviewWebsite.Controllers
             catch (Exception e)
             {
                 logger.Error(e.StackTrace);
+
+                ViewBag.ErrorMessage = "Sorry, something went wrong.";
+
                 return View();
             }
         }

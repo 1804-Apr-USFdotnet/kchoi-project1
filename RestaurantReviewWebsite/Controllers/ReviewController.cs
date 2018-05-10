@@ -79,6 +79,11 @@ namespace RestaurantReviewWebsite.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception("Form validation failed!");
+                }
+
                 Review rev = new Review
                 {
                     RestaurantID = int.Parse(collection["RestaurantID"]),
@@ -101,6 +106,9 @@ namespace RestaurantReviewWebsite.Controllers
             catch (Exception e)
             {
                 logger.Error(e.StackTrace);
+
+                ViewBag.ErrorMessage = "Sorry, something went wrong.";
+
                 return RedirectToAction("Create", new { id = int.Parse(collection["RestaurantID"])});
             }
         }
@@ -130,6 +138,11 @@ namespace RestaurantReviewWebsite.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception("Form validation failed!");
+                }
+
                 Review rev = new Review
                 {
                     ID = id,
@@ -146,6 +159,9 @@ namespace RestaurantReviewWebsite.Controllers
             catch (Exception e)
             {
                 logger.Error(e.StackTrace);
+
+                ViewBag.ErrorMessage = "Sorry, something went wrong.";
+
                 return RedirectToAction("Update", new { id = int.Parse(collection["RestaurantID"]) });
             }
         }
@@ -173,9 +189,15 @@ namespace RestaurantReviewWebsite.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
+            Review rev = Mapper.FindReviewByID(id);
+
             try
             {
-                Review rev = Mapper.FindReviewByID(id);
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception("Form validation failed!");
+                }
+
                 Mapper.DeleteReviewByID(id);
 
                 return RedirectToAction("List", new { id = rev.RestaurantID });
@@ -183,7 +205,10 @@ namespace RestaurantReviewWebsite.Controllers
             catch (Exception e)
             {
                 logger.Error(e.StackTrace);
-                return View();
+
+                ViewBag.ErrorMessage = "Sorry, something went wrong.";
+
+                return View(rev);
             }
         }
 
