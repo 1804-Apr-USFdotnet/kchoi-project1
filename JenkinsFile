@@ -1,11 +1,16 @@
 node {
     stage('import') {
-        git 'https://github.com/1804-Apr-USFdotnet/kchoi-project1.git'
+		try {
+			git 'https://github.com/1804-Apr-USFdotnet/kchoi-project1.git'
+        } catch(exc) {
+            slackSend 'import failed!'
+            throw exc
+        }
     }
     stage('build') {
         try {
             bat 'nuget restore'
-            bat 'msbuild'
+            bat 'msbuild /p:MvCBuildViews=true'
         } catch(exc) {
             slackSend 'build failed!'
             throw exc
