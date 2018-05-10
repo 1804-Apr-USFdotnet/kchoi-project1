@@ -5,5 +5,5 @@
 <div class="jumbotron">
     <h1>Welcome!</h1>
     <p class="lead">RestaurantReviews is a site for creating and viewing restaurant reviews.</p>
-    <p><a href="/Restaurant/Search" class="btn btn-primary btn-lg">See our list of restaurants &raquo;</a></p>
+    <p>@Html.ActionLink("See our list of restaurants!", "Search", "Restaurant", null, new { @Class = "btn btn-primary btn-lg" })</p>
 </div>
