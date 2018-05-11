@@ -26,9 +26,9 @@ node {
     }
     stage('analyze') {
         try {
-//            bat 'SonarQube.Scanner.MSBuild.exe begin /k:\"kchoi-project1\" /d:sonar.organization=\"darthyoshi-github\" /d:sonar.host.url=\"https://sonarcloud.io\"'
-//            bat 'msbuild /t:rebuild'
-//            bat 'SonarQube.Scanner.MSBuild.exe end'
+            bat 'SonarQube.Scanner.MSBuild.exe begin /k:\"kchoi-project1\" /d:sonar.organization=\"darthyoshi-github\" /d:sonar.host.url=\"https://sonarcloud.io\"'
+            bat 'msbuild /t:rebuild'
+            bat 'SonarQube.Scanner.MSBuild.exe end'
         } catch(exc) {
             slackError('analyze')
             throw exc
