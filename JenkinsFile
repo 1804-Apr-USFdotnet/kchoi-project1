@@ -26,9 +26,9 @@ node {
     }
     stage('analyze') {
         try {
-	    bat 'SonarQube.Scanner.MSBuild begin /k:kchoi-project1 /v:0.1.0'
+	    bat 'SonarQube.Scanner.MSBuild.exe begin /k:\"kchoi-project1\" /d:sonar.organization=\"darthyoshi-github\" /d:sonar.host.url=\"https://sonarcloud.io\" /d:sonar.login=\"sonarcloudtoken\"'
 	    bat 'msbuild /t:rebuild'
-	    bat 'SonarQube.Scanner.MSBuild end'
+	    bat 'SonarQube.Scanner.MSBuild.exe end /d:sonar.login=\"sonarcloudtoken\"'
         } catch(exc) {
             slackSend 'analyze failed!'
             throw exc
